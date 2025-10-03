@@ -1,0 +1,20 @@
+# This file is for local development of the ML service.
+# It builds and runs the FastAPI service in a container with live code reloading.
+# To run: `docker-compose up --build` from the `infra/` directory.
+
+services:
+  ml-service:
+    build:
+      context: ../ml-service
+      dockerfile: Dockerfile
+    container_name: nutrition-coach-ml
+    ports:
+      # FIX: Correctly maps port 8001 on your machine to port 8001 inside the container,
+      # where the FastAPI application is running.
+      - "8001:8001"
+    volumes:
+      # Mounts the local code into the container, so changes you make are reflected instantly.
+      - ../ml-service:/app
+    env_file:
+      # Loads environment variables from the .env file in the ml-service directory.
+      - ../ml-service/.env

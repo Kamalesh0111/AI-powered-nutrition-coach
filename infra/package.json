@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@supabase/supabase-js": "^2.58.0",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^17.2.2",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
