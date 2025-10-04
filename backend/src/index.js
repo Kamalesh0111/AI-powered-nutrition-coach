@@ -14,15 +14,26 @@ const PORT = env.PORT;
 
 // --- Middleware ---
 
-// --- THE FIX ---
-// This more explicit CORS configuration is more reliable on serverless platforms
-// like Vercel. It ensures that the correct headers are sent for all requests,
-// including the preflight "OPTIONS" request that was causing the error.
+// --- PRODUCTION SECURITY FIX ---
+// The CORS configuration is now more secure for a production environment.
+// It will only allow requests from your specific Vercel frontend URL.
+// You must set this URL in your Vercel environment variables.
+const allowedOrigins = [process.env.FRONTEND_URL];
+
 app.use(cors({
-  origin: '*', // Allow all origins
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'apikey']
 }));
+
 
 // Enable the Express JSON middleware
 app.use(express.json());
