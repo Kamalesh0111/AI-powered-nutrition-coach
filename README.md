@@ -11,7 +11,11 @@
 > An intelligent, full-stack web application that acts as a personal diet coach. It uses a machine learning model to generate highly personalized, goal-specific meal plans that dynamically adapt to the user's daily feedback.
 
 ---
+## Hosted Links
+- Frontend/Backend - [https://ai-powered-nutrition-coach.vercel.app](https://ai-powered-nutrition-coach.vercel.app)
+- ML-service - [https://ai-nutrition-ml-service.onrender.com](https://ai-nutrition-ml-service.onrender.com)
 
+---
 ## Screenshots
 
 <p align="center">
