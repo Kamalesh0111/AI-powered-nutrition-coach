@@ -13,18 +13,19 @@ const app = express();
 const PORT = env.PORT;
 
 // --- Middleware ---
-app.use(cors());
+
+// --- THE FIX ---
+// This more explicit CORS configuration is more reliable on serverless platforms
+// like Vercel. It ensures that the correct headers are sent for all requests,
+// including the preflight "OPTIONS" request that was causing the error.
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'apikey']
+}));
+
+// Enable the Express JSON middleware
 app.use(express.json());
-
-// --- TEMPORARY DEBUGGING MIDDLEWARE ---
-// This code will run for every single request that hits the server.
-// It will help us see the exact URL the frontend is requesting.
-app.use((req, res, next) => {
-  logger.info(`[DEBUG] Request Received: ${req.method} ${req.originalUrl}`);
-  next(); // This passes the request to the next handler (your API routes)
-});
-// --- END DEBUGGING MIDDLEWARE ---
-
 
 // --- API Routes ---
 app.use('/api/users', userRoutes);
@@ -40,8 +41,7 @@ app.get('/', (req, res) => {
 });
 
 // --- Server Initialization ---
-app.listen(PORT, () => {
-  logger.info(`🚀 Server is running on http://localhost:${PORT}`);
-  logger.info(`Current environment: ${env.NODE_ENV}`);
-});
+// For Vercel, we export the app instead of listening. Vercel handles the listening part.
+// The local `npm run start:backend` command will still work because of how Vercel's tools handle it.
+export default app;
 
