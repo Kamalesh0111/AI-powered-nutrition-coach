@@ -1,0 +1,2 @@
+Client/backend - https://ai-powered-nutrition-coach.vercel.app/dashboard
+ml-service - https://ai-nutrition-ml-service.onrender.com
